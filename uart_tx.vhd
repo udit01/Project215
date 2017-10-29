@@ -34,9 +34,9 @@ use IEEE.STD_LOGIC_1164.ALL;
 entity uart_tx is
 PORT (
   sw:in std_logic_vector(15 downto 0);
-  reset:in STD_LOGIC;
-  send:in STD_LOGIC;
-  data:out STD_LOGIC;
+  reset:in STD_LOGIC;--upButton
+  send:in STD_LOGIC;--middle button
+  data:out STD_LOGIC;--RS32
   led:out std_logic_vector(15 downto 0);
   cathode:out std_logic_vector(6 downto 0);
   anode:out std_logic_vector(3 downto 0)
