@@ -1,21 +1,21 @@
 ----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
--- 
--- Create Date: 29.10.2017 14:55:55
--- Design Name: 
--- Module Name: transmitter - struc
--- Project Name: 
--- Target Devices: 
--- Tool Versions: 
--- Description: 
--- 
--- Dependencies: 
--- 
+-- Company:
+-- Engineer:
+--
+-- Create Date: 27.08.2017 08:20:05
+-- Design Name:
+-- Module Name: display - struc
+-- Project Name:
+-- Target Devices:
+-- Tool Versions:
+-- Description:
+--
+-- Dependencies:
+--
 -- Revision:
 -- Revision 0.01 - File Created
 -- Additional Comments:
--- 
+--
 ----------------------------------------------------------------------------------
 
 
@@ -31,19 +31,20 @@ use IEEE.STD_LOGIC_1164.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-entity transmitter is
-  Port ( send : in std_logic;
-           reset: in std_logic;
-           data: in std_logic_vector(7 downto 0);
-           busy: out std_logic;
-           transmission: out std_logic:='1'
-            );
-end transmitter;
+entity uart_tx is
+PORT (
+  sw:in std_logic_vector(15 downto 0);
+  reset:in STD_LOGIC;
+  send:in STD_LOGIC;
+  data:out STD_LOGIC;
+  led:out std_logic_vector(15 downto 0);
+  cathode:out std_logic_vector(6 downto 0);
+  anode:out std_logic_vector(3 downto 0)
+  --to leds?
+	);
 
-architecture struc of transmitter is
-signal transmission_internal: std_logic:='1';
+end uart_tx;
 
-begin
+architecture structural of uart_tx is
 
-
-end struc;
+end structural;
