@@ -34,17 +34,27 @@ use IEEE.STD_LOGIC_1164.ALL;
 entity display is
 --  Port ( );
 PORT (
-	result: in std_logic_vector(15 downto 0);
-	ring_counter : IN std_logic_vector (3 downto 0);
+	data: in std_logic_vector(15 downto 0);
+	clk: in std_logic;
+	anode : out std_logic_vector (3 downto 0);
 	cathode : OUT std_logic_vector (6 downto 0)
 	);
 
 end display;
 
 architecture struc of display is
+
+signal display_clock: std_logic;
+
 SIGNAL sig : std_logic_vector(3 downto 0):="0000";
 begin
 
+display_clock1: ENTITY WORK.display_clock(struc)
+	PORT MAP(clock=>clk,out_clock=>display_clock);
+	
+	
+anode1x: ENTITY WORK.ring_counter(struc)
+        PORT MAP(clock=>display_clock,count=>anode);
 
 --to be completed to display the ascii digits
 

@@ -40,7 +40,7 @@ PORT (
 
 end ring_counter;
 
-architecture Behavioral of ring_counter is
+architecture struc of ring_counter is
 SIGNAL ring : std_logic_vector (3 downto 0) := "1110";
 BEGIN
 
@@ -60,4 +60,4 @@ BEGIN
 
 
 
-end Behavioral;
+end struc;

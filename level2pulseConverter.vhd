@@ -40,7 +40,7 @@ entity level2pulseConverter is
 --  Port ( );
 end level2pulseConverter;
 
-architecture Behavioral of level2pulseConverter is
+architecture struc of level2pulseConverter is
 
 --begin
 signal d1,d2:STD_LOGIC:='0';
@@ -55,4 +55,4 @@ begin
     out1<= (not(d2)) and d1; 
 
 
-end Behavioral;
+end struc;

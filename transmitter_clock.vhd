@@ -41,7 +41,7 @@ clock : in STD_LOGIC;
 
 end transmitter_clock;
 
-architecture Behavioral of transmitter_clock is
+architecture struc of transmitter_clock is
 SIGNAL ring : std_logic_vector (14 downto 0) := "000000000000000";
 --begin
 --process(clock)
@@ -75,4 +75,4 @@ clk <= not clk;
 	end process;
 out_clock<=clk;
 
-end Behavioral;
+end struc;
