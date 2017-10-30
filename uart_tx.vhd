@@ -35,7 +35,7 @@ use IEEE.NUMERIC_STD.ALL;
 
 entity uart_tx is
 PORT (
-  data_input:in std_logic_vector(15 downto 0);
+  data_input:in std_logic_vector(15 downto 0):="0000000000000000";
   clk:in std_logic;
   reset:in STD_LOGIC;--upButton
   send:in STD_LOGIC:='0';--middle button
@@ -51,8 +51,8 @@ end uart_tx;
 
 architecture structural of uart_tx is
 
-signal data_internal,comparator1,comparator2: std_logic:='1';
-signal busy_internal,send_pulse,sending_pos,clock: std_logic:='0';
+signal data_internal,final_clock,comparator1,comparator2: std_logic:='1';
+signal busy_internal,send_pulse,sim_mode,sending_pos,clock: std_logic:='0';
 signal counter: std_logic_vector(8 downto 0):="000000000";
 signal data1,data2:std_logic_vector(7 downto 0):="00000000";
 begin
@@ -69,6 +69,8 @@ comparator2<= '1' when not((data2 and counter(7 downto 0)) =  "00000000" )
 
 led<=data_input;
 
+final_clock<= clk when sim_mode='1' else clock;
+
 clocker: ENTITY WORK.transmitter_clock(struc)
 	PORT MAP(clock=>clk,out_clock=>clock);
     
@@ -82,7 +84,7 @@ clocker: ENTITY WORK.transmitter_clock(struc)
 data<=data_internal;
 --busy<=busy_internal;
 
-process(clock,reset,send)
+process(final_clock,reset,send)
 begin
     if(reset='1') then
                     
@@ -91,7 +93,7 @@ begin
                         counter<="000000000";
                         sending_pos<='0';
         
-    elsif (rising_edge(clock)) then
+    elsif (rising_edge(final_clock)) then
     
                         if(send_pulse='1' and busy_internal='0') then
                         
