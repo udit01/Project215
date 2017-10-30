@@ -64,14 +64,14 @@ signal clk:std_logic:='0';
 begin
 process(clock)
 	begin
-	if(clock'event and clock='1') then
-    count <=count+1;
-    -- Decide on this count to make it 9600 bauds
-    if(count = 10000000) then
-clk <= not clk;
-    count <=1;
-    end if;
-    end if;
+                    if(clock'event and clock='1') then
+                                count <=count+1;
+                    -- Decide on this count to make it 9600 bauds
+                                if(count = 10417) then
+                                            clk <= not clk;
+                                            count <=1;
+                                end if;
+                    end if;
 	end process;
 out_clock<=clk;
 

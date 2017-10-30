@@ -82,7 +82,7 @@ clocker: ENTITY WORK.transmitter_clock(struc)
 data<=data_internal;
 --busy<=busy_internal;
 
-process(clk,reset,send)
+process(clock,reset,send)
 begin
     if(reset='1') then
                     
@@ -91,7 +91,7 @@ begin
                         counter<="000000000";
                         sending_pos<='0';
         
-    elsif (rising_edge(clk)) then
+    elsif (rising_edge(clock)) then
     
                         if(send_pulse='1' and busy_internal='0') then
                         
