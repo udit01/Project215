@@ -2,6 +2,7 @@ add_force {/uart_tx/data_input} -radix bin {1010101010101010 0ns}
 add_force {/uart_tx/clk} -radix bin {1 0ns} {0 5ps} -repeat_every 10ps
 add_force {/uart_tx/reset} -radix bin {0 0ns}
 add_force {/uart_tx/send} -radix bin {1 200ps}
+add_force {/uart_tx/sim_mode} -radix bin {1 200ps}
 run 100 ns
 
 https://github.com/FPGAwars/FPGA-peripherals/wiki/Asynchronous-serial-transmitter-unit

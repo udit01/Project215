@@ -61,13 +61,18 @@ data1<=data_input(15 downto 8);
 data2<=data_input(7 downto 0);
 
 comparator1<= '1' when not((data1 and counter(7 downto 0)) =  "00000000" )
+--comparator1<= '1' when not(("01000000" and counter(7 downto 0)) =  "00000000" )
                 else '0';
 
 comparator2<= '1' when not((data2 and counter(7 downto 0)) =  "00000000" )
+--comparator2<= '1' when not(("01000000" and counter(7 downto 0)) =  "00000000" )
                 else '0';
 
 
-led<=data_input;
+--led(14 downto 1)<= data_input(14 downto 1);
+--led(0)<= data_internal;
+--led(15)<= data_internal;
+led <= data_input;
 
 final_clock<= clk when sim_mode='1' else clock;
 
@@ -76,8 +81,8 @@ clocker: ENTITY WORK.transmitter_clock(struc)
     
 
 	pulse: ENTITY WORK.level2pulseConverter(struc)
-	PORT MAP(clk=>clk,in1=>send,out1=>send_pulse);
-
+	PORT MAP(clk=>final_clock,in1=>send,out1=>send_pulse);
+--    send_pulse <= send;
 	display: ENTITY WORK.display(struc)
 	PORT MAP(clk=>clk,data=>data_input,anode=>anode,cathode=>cathode);
 
@@ -92,7 +97,7 @@ begin
                         busy_internal<='0';
                         counter<="000000000";
                         sending_pos<='0';
-        
+    
     elsif (rising_edge(final_clock)) then
     
                         if(send_pulse='1' and busy_internal='0') then

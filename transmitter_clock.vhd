@@ -67,7 +67,8 @@ process(clock)
                     if(clock'event and clock='1') then
                                 count <=count+1;
                     -- Decide on this count to make it 9600 bauds
-                                if(count = 10417) then
+--                                if(count = 10418) then--(100mhz/(9600))
+                                if(count = 5209) then--(100mhz/(9600))
                                             clk <= not clk;
                                             count <=1;
                                 end if;
