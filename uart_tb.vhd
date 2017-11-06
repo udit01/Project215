@@ -539,11 +539,11 @@ wait for clk_period;
 		-- err_cnt_signal <= err_cnt;
     --
 		if (err_cnt=0) then
-			 assert false;
+--			 assert false
 			 report "Testbench of UART completed successfully!";
 			--  severity note;
 		else
-			 assert false;
+--			 assert false
 			 report "Something wrong, try again";
 		-- 	 severity error;
 		end if;
