@@ -42,6 +42,7 @@ PORT (
   sendL:in std_logic:='0';
   sendR:in std_logic:='0';
   data:out STD_LOGIC;--RS32
+  sim_mode:in std_logic;--down Button
 --  busy:out std_logic;
   led:out std_logic_vector(15 downto 0);
   cathode:out std_logic_vector(6 downto 0);
@@ -56,7 +57,7 @@ signal sending_pos : integer :=0;
 signal loop_number : integer :=69;
 signal loop_number2 : integer :=897;
 signal data_internal,final_clock,comparator1,comparator2,general_comparator,general_comparator2: std_logic:='1';
-signal busy_internal,busy_internal1,busy_internal2,busy_internal3,send_pulse,send_pulseL,send_pulseR,sim_mode,clock: std_logic:='0';
+signal busy_internal,busy_internal1,busy_internal2,busy_internal3,send_pulse,send_pulseL,send_pulseR,clock: std_logic:='0';
 signal counter: std_logic_vector(8 downto 0):="000000000";
 signal data1,data2:std_logic_vector(7 downto 0):="00000000";
 
