@@ -1,3 +1,7 @@
+--Created By:-
+--Shashwat Shivam & Udit Jain
+--2016CS10328 & 2016CS10327
+
 ----------------------------------------------------------------------------------
 -- Company: 
 -- Engineer: 
@@ -34,7 +38,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 entity level2pulseConverter is
 
   Port (in1 :in std_logic:='0';
-        clk: in std_logic;
+        clk: in std_logic:='0';
    out1 :out std_logic);
 
 --  Port ( );
