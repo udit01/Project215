@@ -246,7 +246,7 @@ BEGIN
    end if;
 
    send <= '0';
-   data_input <= "0000000100000001";
+   data_input <= "0101010101010101";
 
    wait for 4*clk_period;
    send <= '1';
@@ -255,8 +255,8 @@ BEGIN
 
    outData <= (others => '0');
 
---    assert(led="0000000100000001") report "LED outputs don't match";
-   if(led/="0000000100000001") then
+--    assert(led="0101010101010101") report "LED outputs don't match";
+   if(led/="0101010101010101") then
       err_cnt := err_cnt +1;
       report "Test Case 2: LED outputs don't match";
    end if;
@@ -274,8 +274,8 @@ BEGIN
      wait for clk_period;
    end loop;
 
---    assert(outData="00000001") report "Incorrect output bits";
-   if(outData /= "00000001") then
+--    assert(outData="01010101") report "Incorrect output bits";
+   if(outData /= "01010101") then
       err_cnt := err_cnt +1;
       report "Test Case 2: Incorrect 8 output bits of Packet:1";
    end if;
@@ -303,8 +303,8 @@ BEGIN
    end loop;
 
 
---    assert(outData="00000001") report "Incorrect output bits";
-   if(outData /= "00000001") then
+--    assert(outData="01010101") report "Incorrect output bits";
+   if(outData /= "01010101") then
       err_cnt := err_cnt +1;
       report "Test Case 2: Incorrect 8 output bits of Packet:2";
    end if;
@@ -347,7 +347,7 @@ wait for clk_period;
   end if;
 
   send <= '0';
-  data_input <= "0000000100000001";
+  data_input <= "1111000000110011";
 
   wait for 4*clk_period;
   send <= '1';
@@ -356,8 +356,8 @@ wait for clk_period;
 
   outData <= (others => '0');
 
---    assert(led="0000000100000001") report "LED outputs don't match";
-  if(led/="0000000100000001") then
+--    assert(led="1111000000110011") report "LED outputs don't match";
+  if(led/="1111000000110011") then
      err_cnt := err_cnt +1;
      report "Test Case 3: LED outputs don't match";
   end if;
@@ -375,8 +375,8 @@ wait for clk_period;
     wait for clk_period;
   end loop;
 
---    assert(outData="00000001") report "Incorrect output bits";
-  if(outData /= "00000001") then
+--    assert(outData="11110000") report "Incorrect output bits";
+  if(outData /= "11110000") then
      err_cnt := err_cnt +1;
      report "Test Case 3: Incorrect 8 output bits of Packet:1";
   end if;
@@ -404,8 +404,8 @@ wait for clk_period;
   end loop;
 
 
---    assert(outData="00000001") report "Incorrect output bits";
-  if(outData /= "00000001") then
+--    assert(outData="00110011") report "Incorrect output bits";
+  if(outData /= "00110011") then
      err_cnt := err_cnt +1;
      report "Test Case 3: Incorrect 8 output bits of Packet:2";
   end if;
@@ -448,7 +448,7 @@ wait for clk_period;
   end if;
 
   send <= '0';
-  data_input <= "0000000100000001";
+  data_input <= "1011001010110010";
 
   wait for 4*clk_period;
   send <= '1';
@@ -457,8 +457,8 @@ wait for clk_period;
 
   outData <= (others => '0');
 
---    assert(led="0000000100000001") report "LED outputs don't match";
-  if(led/="0000000100000001") then
+--    assert(led="1011001010110010") report "LED outputs don't match";
+  if(led/="1011001010110010") then
      err_cnt := err_cnt +1;
      report "Test Case 4: LED outputs don't match";
   end if;
@@ -476,8 +476,8 @@ wait for clk_period;
     wait for clk_period;
   end loop;
 
---    assert(outData="00000001") report "Incorrect output bits";
-  if(outData /= "00000001") then
+--    assert(outData="10110010") report "Incorrect output bits";
+  if(outData /= "10110010") then
      err_cnt := err_cnt +1;
      report "Test Case 4: Incorrect 8 output bits of Packet:1";
   end if;
@@ -505,8 +505,8 @@ wait for clk_period;
   end loop;
 
 
---    assert(outData="00000001") report "Incorrect output bits";
-  if(outData /= "00000001") then
+--    assert(outData="10110010") report "Incorrect output bits";
+  if(outData /= "10110010") then
      err_cnt := err_cnt +1;
      report "Test Case 4: Incorrect 8 output bits of Packet:2";
   end if;
