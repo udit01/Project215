@@ -81,7 +81,7 @@ ARCHITECTURE behavior OF uart_tb IS
    -- Clock period definitions
 
    constant clk_periodFast : time := 10 ps;
-   
+
 --   constant clk_period : time := 104180 ns;--clk * 10418
    constant clk_period : time := 10 ps;--clk * 10418
 --	signal err_cnt_signal : integer := 0;
@@ -118,7 +118,7 @@ BEGIN
 		wait for clk_periodFast/2;
    end process;
 
-    
+
    -- Stimulus process
    stim_proc: process
 
@@ -126,123 +126,427 @@ BEGIN
 --		variable cathodeGroundTruth : intArray := (0,1,0,1);
 		variable err_cnt : INTEGER := 0;
    begin
+
 		------------------------------------------------------------
-      --------------------- pre-case 0 ---------------------------
+      --------------------- TEST CASE 1 ---------------------------
 		------------------------------------------------------------
-	
+
 	reset<='1';
 	sim_mode<='1';
 	wait for clk_period;
 	reset<='0';
 	wait for clk_period;
-	
-	
+
+
 --    assert(data = '1') report "Stop bit error";
     if(data /= '1') then
        err_cnt := err_cnt +1;
        report "Test Case 1: Stop bit error ";
     end if;
-    
+
     send <= '0';
     data_input <= "0000000100000001";
-    
+
     wait for 4*clk_period;
     send <= '1';
     wait for 2*clk_period;
     send <= '0';
-     
+
     outData <= (others => '0');
-    
+
 --    assert(led="0000000100000001") report "LED outputs don't match";
     if(led/="0000000100000001") then
        err_cnt := err_cnt +1;
        report "Test Case 1: LED outputs don't match";
     end if;
-    
-    
+
+
 --    assert(data = '0') report "Start bit error";
     if(data /= '0') then
        err_cnt := err_cnt +1;
        report "Test Case 1: Start bit error before Packet:1";
     end if;
     wait for clk_period;
-    
-    collector : for i in 0 to 7 loop
+
+    collector11 : for i in 0 to 7 loop
       outData <=  (data) & outData(7 downto 1) ;
       wait for clk_period;
     end loop;
-    
+
 --    assert(outData="00000001") report "Incorrect output bits";
     if(outData /= "00000001") then
        err_cnt := err_cnt +1;
        report "Test Case 1: Incorrect 8 output bits of Packet:1";
     end if;
-        
+
 --    assert(data = '1') report "Incorrect stop bit";
      if(data /= '1') then
           err_cnt := err_cnt +1;
           report "Test Case 1: Incorrect stop bit between Packets";
      end if;
-     
+
     wait for clk_period;
 
     outData <= (others => '0');
-    
+
 --    assert(data = '0') report "Start bit error";
     if(data /= '0') then
       err_cnt := err_cnt +1;
       report "Test Case 1: Start bit error Packet:2";
-    end if;    
-    
+    end if;
+
     wait for clk_period;
-    collector2 : for i in 0 to 7 loop
+    collector12 : for i in 0 to 7 loop
       outData <=  (data) & outData(7 downto 1) ;
       wait for clk_period;
     end loop;
-    
-    
+
+
 --    assert(outData="00000001") report "Incorrect output bits";
     if(outData /= "00000001") then
        err_cnt := err_cnt +1;
        report "Test Case 1: Incorrect 8 output bits of Packet:2";
     end if;
-    
+
 --    assert(data = '1') report "Incorrect stop bit";
      if(data /= '1') then
          err_cnt := err_cnt +1;
          report "Test Case 1: Incorrect stop bit after both packets";
         end if;
-        
+
     wait for 3*clk_period;
 
     if((data='1')and(err_cnt=0)) then
         report "Test Case 1 succesfully cleared";
         success<='1';
-    else 
+    else
         err_cnt:=err_cnt +1;
         report "Test Case 1: Incorrect stop bit sometime after";
     end if;
-    
+
     wait for 3*clk_period;
     success <= '0';
-        
---    assert(data = '0') report "SUCCESS! ";
+
+
+   ------------------------------------------------------------
+     --------------------- TEST CASE 2 ---------------------------
+   ------------------------------------------------------------
+
+ reset<='1';
+ sim_mode<='1';
+ wait for clk_period;
+ reset<='0';
+ wait for clk_period;
+
+
+--    assert(data = '1') report "Stop bit error";
+   if(data /= '1') then
+      err_cnt := err_cnt +1;
+      report "Test Case 2: Stop bit error ";
+   end if;
+
+   send <= '0';
+   data_input <= "0000000100000001";
+
+   wait for 4*clk_period;
+   send <= '1';
+   wait for 2*clk_period;
+   send <= '0';
+
+   outData <= (others => '0');
+
+--    assert(led="0000000100000001") report "LED outputs don't match";
+   if(led/="0000000100000001") then
+      err_cnt := err_cnt +1;
+      report "Test Case 2: LED outputs don't match";
+   end if;
+
+
+--    assert(data = '0') report "Start bit error";
+   if(data /= '0') then
+      err_cnt := err_cnt +1;
+      report "Test Case 2: Start bit error before Packet:1";
+   end if;
+   wait for clk_period;
+
+   collector21 : for i in 0 to 7 loop
+     outData <=  (data) & outData(7 downto 1) ;
+     wait for clk_period;
+   end loop;
+
+--    assert(outData="00000001") report "Incorrect output bits";
+   if(outData /= "00000001") then
+      err_cnt := err_cnt +1;
+      report "Test Case 2: Incorrect 8 output bits of Packet:1";
+   end if;
+
+--    assert(data = '1') report "Incorrect stop bit";
+    if(data /= '1') then
+         err_cnt := err_cnt +1;
+         report "Test Case 2: Incorrect stop bit between Packets";
+    end if;
+
+   wait for clk_period;
+
+   outData <= (others => '0');
+
+--    assert(data = '0') report "Start bit error";
+   if(data /= '0') then
+     err_cnt := err_cnt +1;
+     report "Test Case 2: Start bit error Packet:2";
+   end if;
+
+   wait for clk_period;
+   collector22 : for i in 0 to 7 loop
+     outData <=  (data) & outData(7 downto 1) ;
+     wait for clk_period;
+   end loop;
+
+
+--    assert(outData="00000001") report "Incorrect output bits";
+   if(outData /= "00000001") then
+      err_cnt := err_cnt +1;
+      report "Test Case 2: Incorrect 8 output bits of Packet:2";
+   end if;
+
+--    assert(data = '1') report "Incorrect stop bit";
+    if(data /= '1') then
+        err_cnt := err_cnt +1;
+        report "Test Case 2: Incorrect stop bit after both packets";
+       end if;
+
+   wait for 3*clk_period;
+
+   if((data='1')and(err_cnt=0)) then
+       report "Test Case 2 succesfully cleared";
+       success<='1';
+   else
+       err_cnt:=err_cnt +1;
+       report "Test Case 2: Incorrect stop bit sometime after";
+   end if;
+
+   wait for 3*clk_period;
+   success <= '0';
+
+
+  ------------------------------------------------------------
+    --------------------- TEST CASE 3 ---------------------------
+  ------------------------------------------------------------
+
+reset<='1';
+sim_mode<='1';
+wait for clk_period;
+reset<='0';
+wait for clk_period;
+
+
+--    assert(data = '1') report "Stop bit error";
+  if(data /= '1') then
+     err_cnt := err_cnt +1;
+     report "Test Case 3: Stop bit error ";
+  end if;
+
+  send <= '0';
+  data_input <= "0000000100000001";
+
+  wait for 4*clk_period;
+  send <= '1';
+  wait for 2*clk_period;
+  send <= '0';
+
+  outData <= (others => '0');
+
+--    assert(led="0000000100000001") report "LED outputs don't match";
+  if(led/="0000000100000001") then
+     err_cnt := err_cnt +1;
+     report "Test Case 3: LED outputs don't match";
+  end if;
+
+
+--    assert(data = '0') report "Start bit error";
+  if(data /= '0') then
+     err_cnt := err_cnt +1;
+     report "Test Case 3: Start bit error before Packet:1";
+  end if;
+  wait for clk_period;
+
+  collector31 : for i in 0 to 7 loop
+    outData <=  (data) & outData(7 downto 1) ;
+    wait for clk_period;
+  end loop;
+
+--    assert(outData="00000001") report "Incorrect output bits";
+  if(outData /= "00000001") then
+     err_cnt := err_cnt +1;
+     report "Test Case 3: Incorrect 8 output bits of Packet:1";
+  end if;
+
+--    assert(data = '1') report "Incorrect stop bit";
+   if(data /= '1') then
+        err_cnt := err_cnt +1;
+        report "Test Case 3: Incorrect stop bit between Packets";
+   end if;
+
+  wait for clk_period;
+
+  outData <= (others => '0');
+
+--    assert(data = '0') report "Start bit error";
+  if(data /= '0') then
+    err_cnt := err_cnt +1;
+    report "Test Case 3: Start bit error Packet:2";
+  end if;
+
+  wait for clk_period;
+  collector32 : for i in 0 to 7 loop
+    outData <=  (data) & outData(7 downto 1) ;
+    wait for clk_period;
+  end loop;
+
+
+--    assert(outData="00000001") report "Incorrect output bits";
+  if(outData /= "00000001") then
+     err_cnt := err_cnt +1;
+     report "Test Case 3: Incorrect 8 output bits of Packet:2";
+  end if;
+
+--    assert(data = '1') report "Incorrect stop bit";
+   if(data /= '1') then
+       err_cnt := err_cnt +1;
+       report "Test Case 3: Incorrect stop bit after both packets";
+      end if;
+
+  wait for 3*clk_period;
+
+  if((data='1')and(err_cnt=0)) then
+      report "Test Case 3 succesfully cleared";
+      success<='1';
+  else
+      err_cnt:=err_cnt +1;
+      report "Test Case 3: Incorrect stop bit sometime after";
+  end if;
+
+  wait for 3*clk_period;
+  success <= '0';
+
+
+  ------------------------------------------------------------
+    --------------------- TEST CASE 4 ---------------------------
+  ------------------------------------------------------------
+
+reset<='1';
+sim_mode<='1';
+wait for clk_period;
+reset<='0';
+wait for clk_period;
+
+
+--    assert(data = '1') report "Stop bit error";
+  if(data /= '1') then
+     err_cnt := err_cnt +1;
+     report "Test Case 4: Stop bit error ";
+  end if;
+
+  send <= '0';
+  data_input <= "0000000100000001";
+
+  wait for 4*clk_period;
+  send <= '1';
+  wait for 2*clk_period;
+  send <= '0';
+
+  outData <= (others => '0');
+
+--    assert(led="0000000100000001") report "LED outputs don't match";
+  if(led/="0000000100000001") then
+     err_cnt := err_cnt +1;
+     report "Test Case 4: LED outputs don't match";
+  end if;
+
+
+--    assert(data = '0') report "Start bit error";
+  if(data /= '0') then
+     err_cnt := err_cnt +1;
+     report "Test Case 4: Start bit error before Packet:1";
+  end if;
+  wait for clk_period;
+
+  collector41 : for i in 0 to 7 loop
+    outData <=  (data) & outData(7 downto 1) ;
+    wait for clk_period;
+  end loop;
+
+--    assert(outData="00000001") report "Incorrect output bits";
+  if(outData /= "00000001") then
+     err_cnt := err_cnt +1;
+     report "Test Case 4: Incorrect 8 output bits of Packet:1";
+  end if;
+
+--    assert(data = '1') report "Incorrect stop bit";
+   if(data /= '1') then
+        err_cnt := err_cnt +1;
+        report "Test Case 4: Incorrect stop bit between Packets";
+   end if;
+
+  wait for clk_period;
+
+  outData <= (others => '0');
+
+--    assert(data = '0') report "Start bit error";
+  if(data /= '0') then
+    err_cnt := err_cnt +1;
+    report "Test Case 4: Start bit error Packet:2";
+  end if;
+
+  wait for clk_period;
+  collector42 : for i in 0 to 7 loop
+    outData <=  (data) & outData(7 downto 1) ;
+    wait for clk_period;
+  end loop;
+
+
+--    assert(outData="00000001") report "Incorrect output bits";
+  if(outData /= "00000001") then
+     err_cnt := err_cnt +1;
+     report "Test Case 4: Incorrect 8 output bits of Packet:2";
+  end if;
+
+--    assert(data = '1') report "Incorrect stop bit";
+   if(data /= '1') then
+       err_cnt := err_cnt +1;
+       report "Test Case 4: Incorrect stop bit after both packets";
+      end if;
+
+  wait for 3*clk_period;
+
+  if((data='1')and(err_cnt=0)) then
+      report "Test Case 4 succesfully cleared";
+      success<='1';
+  else
+      err_cnt:=err_cnt +1;
+      report "Test Case 4: Incorrect stop bit sometime after";
+  end if;
+
+  wait for 3*clk_period;
+  success <= '0';
+
 
 		-- err_cnt_signal <= err_cnt;
     --
-		-- if (err_cnt=0) then
-		-- 	 assert false
-		-- 	 report "Testbench of UART completed successfully!"
-		-- 	 severity note;
-		-- else
-		-- 	 assert false
-		-- 	 report "Something wrong, try again"
+		if (err_cnt=0) then
+			 assert false;
+			 report "Testbench of UART completed successfully!";
+			--  severity note;
+		else
+			 assert false;
+			 report "Something wrong, try again";
 		-- 	 severity error;
-		-- end if;
+		end if;
     --
-		-- wait for clk_period*100;
-    --
-    --   wait;
+    report "TEST BENCH MADE BY: UDIT JAIN (2016CS10327) , SHASHWAT SHIVAM (2016CS10328)";
+		 wait for clk_period*10;
+
+       wait;
    end process;
 
 END;
