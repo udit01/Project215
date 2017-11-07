@@ -40,7 +40,7 @@ entity ring_counter is
 --  Port ( );
 PORT (
 	clock : IN std_logic;
-	count : OUT std_logic_vector (3 downto 0));
+	count : OUT std_logic_vector (3 downto 0):="0111");
 
 end ring_counter;
 

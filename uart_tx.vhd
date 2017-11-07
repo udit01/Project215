@@ -114,24 +114,24 @@ led <= data_input;
 
 final_clock<= clk when sim_mode='1' else clock;
 
-ssd:ENTITY.WORK.display(struc)
-  PORT MAP(data_input=>data_input,clk=>clk,sim_mode,anode=>anode,cathode=>cathode);
+ssd:ENTITY WORK.display(struc)
+  PORT MAP(data_input=>data_input,clk=>clk,sim_mode=>sim_mode,anode=>anode,cathode=>cathode);
 
 clocker: ENTITY WORK.transmitter_clock(struc)
 	PORT MAP(clock=>clk,out_clock=>clock);
 
 
-	pulse: ENTITY WORK.level2pulseConverter(struc)
-	PORT MAP(clk=>final_clock,in1=>send,out1=>send_pulse);
+pulse: ENTITY WORK.level2pulseConverter(struc)
+PORT MAP(clk=>final_clock,in1=>send,out1=>send_pulse);
 
-		pulse2: ENTITY WORK.level2pulseConverter(struc)
-    PORT MAP(clk=>final_clock,in1=>sendL,out1=>send_pulseL);
-	pulse3: ENTITY WORK.level2pulseConverter(struc)
-        PORT MAP(clk=>final_clock,in1=>sendR,out1=>send_pulseR);
+pulse2: ENTITY WORK.level2pulseConverter(struc)
+PORT MAP(clk=>final_clock,in1=>sendL,out1=>send_pulseL);
+pulse3: ENTITY WORK.level2pulseConverter(struc)
+PORT MAP(clk=>final_clock,in1=>sendR,out1=>send_pulseR);
 
 --    send_pulse <= send;
-	display: ENTITY WORK.display(struc)
-	PORT MAP(clk=>clk,data=>data_input,anode=>anode,cathode=>cathode);
+--	display: ENTITY WORK.display(struc)
+--	PORT MAP(clk=>clk,data=>data_input,anode=>anode,cathode=>cathode);
 
 data<=data_internal;
 --busy<=busy_internal;
