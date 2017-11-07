@@ -59,6 +59,16 @@ PORT (
 end uart_tx;
 
 architecture structural of uart_tx is
+  -- COMPONENT display is
+  --   port(
+  --   data: in std_logic_vector(15 downto 0);
+  -- 	clk: in std_logic;
+  --   sim_mode: in std_logic;
+  -- 	anode : out std_logic_vector (3 downto 0);
+  -- 	cathode : OUT std_logic_vector (6 downto 0)
+  --   )
+  -- END COMPONENT;
+
 signal sending_pos : integer :=0;
 signal loop_number : integer :=69;
 signal loop_number2 : integer :=897;
@@ -76,6 +86,8 @@ signal data_arr2 : t_Memory2:=("00001101","00001010","00100000","00100000","0010
 
 begin
 
+
+
 data1<=data_input(15 downto 8);
 data2<=data_input(7 downto 0);
 
@@ -90,11 +102,11 @@ comparator2<= '1' when not((data2 and counter(7 downto 0)) =  "00000000" )
 general_comparator<='1' when not((data_arr(sending_pos) and counter(7 downto 0)) =  "00000000" )
 --comparator2<= '1' when not(("01000000" and counter(7 downto 0)) =  "00000000" )
                 else '0';
-                
+
  general_comparator2<='1' when not((data_arr2(sending_pos) and counter(7 downto 0)) =  "00000000" )
                 --comparator2<= '1' when not(("01000000" and counter(7 downto 0)) =  "00000000" )
-                                else '0';               
-  
+                                else '0';
+
 --led(14 downto 1)<= data_input(14 downto 1);
 --led(0)<= data_internal;
 --led(15)<= data_internal;
@@ -102,18 +114,21 @@ led <= data_input;
 
 final_clock<= clk when sim_mode='1' else clock;
 
+ssd:ENTITY.WORK.display(struc)
+  PORT MAP(data_input=>data_input,clk=>clk,sim_mode,anode=>anode,cathode=>cathode);
+
 clocker: ENTITY WORK.transmitter_clock(struc)
 	PORT MAP(clock=>clk,out_clock=>clock);
-    
+
 
 	pulse: ENTITY WORK.level2pulseConverter(struc)
 	PORT MAP(clk=>final_clock,in1=>send,out1=>send_pulse);
-	
+
 		pulse2: ENTITY WORK.level2pulseConverter(struc)
     PORT MAP(clk=>final_clock,in1=>sendL,out1=>send_pulseL);
 	pulse3: ENTITY WORK.level2pulseConverter(struc)
         PORT MAP(clk=>final_clock,in1=>sendR,out1=>send_pulseR);
-        
+
 --    send_pulse <= send;
 	display: ENTITY WORK.display(struc)
 	PORT MAP(clk=>clk,data=>data_input,anode=>anode,cathode=>cathode);
@@ -124,55 +139,55 @@ busy_internal<=busy_internal1 or busy_internal2 or busy_internal3;
 process(final_clock,reset)
 begin
     if(reset='1') then
-                    
+
                         data_internal<='1';
                         busy_internal1<='0';
                         busy_internal2<='0';
                         busy_internal3<='0';
                         counter<="000000000";
                         sending_pos<=0;
-    
+
     elsif (rising_edge(final_clock)) then
-    
+
                         if(send_pulse='1' and busy_internal='0') then
-                        
+
                                                    busy_internal1<='1';
                                                    data_internal<='0';
                                                    counter<="000000001";
                                                    sending_pos<=0;
-                        
+
                         elsif(send_pulseL='1' and busy_internal='0') then
-                        
+
                                                     busy_internal2<='1';
                                                     data_internal<='0';
                                                    counter<="000000001";
                                                    sending_pos<=0;
-                            
+
                            elsif(send_pulseR='1' and busy_internal='0') then
-                                                                       
+
                                                    busy_internal3<='1';
                                                    data_internal<='0';
                                                   counter<="000000001";
-                                                  sending_pos<=0;                     
-                                                   
-                        elsif(busy_internal1='1') then       
+                                                  sending_pos<=0;
+
+                        elsif(busy_internal1='1') then
                                                   if(counter="100000000") then
-                                                              
+
                                                                     data_internal<='1';
                                                                     counter<="000000000";
-                                                                    
+
                                                                     if(sending_pos=0) then
                                                                         sending_pos<=1;
 --                                                                        counter<="000000000";
                                                                     else
-                                                                    busy_internal1<='0'; 
+                                                                    busy_internal1<='0';
                                                                     sending_pos<=0;
                                                                     end if;
-                                                    
+
                                                     elsif(sending_pos=0)       then
 --                                                                   elsif((data1 or counter(7 downto 0))> "00000000") then
                                                                         data_internal<=comparator1;
---                                                                    else 
+--                                                                    else
 --                                                                        data_internal<='0';
 --                                                                    end if;
                                                                     counter<=counter(7 downto 0) & '0';
@@ -186,20 +201,20 @@ begin
                                                                                     data_internal<=comparator2;
                                                                                     counter<=counter(7 downto 0) & '0';
                                                                       end if;
---                                                                    else 
+--                                                                    else
 --                                                                        data_internal<='0';
 --                                                                    end if;
                                                       end if;
-                               elsif(busy_internal2='1') then       
+                               elsif(busy_internal2='1') then
                                                                if(counter="100000000") then
                                                                                  data_internal<='1';
                                                                                  counter<="000000000";
                                                                                  if(sending_pos=loop_number) then
-                                                                                    busy_internal2<='0'; 
+                                                                                    busy_internal2<='0';
                                                                                      sending_pos<=0;
                                                                                  else
                                                                                   sending_pos<=sending_pos+1;
-                                                                                 end if;                        
+                                                                                 end if;
                                                                   else
                                                                                   if(counter="000000000") then
                                                                                                      data_internal<='0';
@@ -208,17 +223,17 @@ begin
                                                                                                  data_internal<=general_comparator;
                                                                                                  counter<=counter(7 downto 0) & '0';
                                                                                    end if;
-                                                                   end if;               
-                             elsif(busy_internal3='1') then       
+                                                                   end if;
+                             elsif(busy_internal3='1') then
                                                              if(counter="100000000") then
                                                                                data_internal<='1';
                                                                                counter<="000000000";
                                                                                if(sending_pos=loop_number2) then
-                                                                                  busy_internal3<='0'; 
+                                                                                  busy_internal3<='0';
                                                                                    sending_pos<=0;
                                                                                else
                                                                                 sending_pos<=sending_pos+1;
-                                                                               end if;                        
+                                                                               end if;
                                                                 else
                                                                                 if(counter="000000000") then
                                                                                                    data_internal<='0';
@@ -227,10 +242,10 @@ begin
                                                                                                data_internal<=general_comparator2;
                                                                                                counter<=counter(7 downto 0) & '0';
                                                                                  end if;
-                                                                 end if;    
-                            
+                                                                 end if;
+
                             end if;
-                
+
             end if;
 --    end if;
 end process;
