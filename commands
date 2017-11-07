@@ -5,4 +5,3 @@ add_force {/uart_tx/send} -radix bin {1 200ps}
 add_force {/uart_tx/sim_mode} -radix bin {1 200ps}
 run 100 ns
 
-https://github.com/FPGAwars/FPGA-peripherals/wiki/Asynchronous-serial-transmitter-unit
