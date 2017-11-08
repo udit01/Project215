@@ -58,10 +58,11 @@ signal anodeValues : anode_output_array;-- := ("0111","1011","1101","1110");
 
 signal clock: std_logic;
 signal slow_clock:std_logic;
-signal int1:integer range 0 to 255;
-signal int2:integer range 0 to 255;
-signal comparator1:STD_LOGIC;
-signal comparator2:STD_LOGIC;
+signal pos:std_logic;
+signal int1,int2:integer range 0 to 255;
+--signal int2:integer range 0 to 255;
+signal comparator1,comparator2:STD_LOGIC;
+--signal comparator2:STD_LOGIC;
 signal anode_internal:std_logic_vector(3 downto 0);
 signal data_input_internal:std_logic_vector(15 downto 0):="0000000000000000";
 begin
@@ -121,16 +122,37 @@ comparator2 <= '0' when((data_input(15 downto 8) xnor data_input_internal(15 dow
        result(1) <= (int2 ) mod 10;
        result(0) <= 10;--nothing;
            data_input_internal(15 downto 8)<=data_input(15 downto 8);
-
- end if;
- if (comparator1='1') then
-    --int1
-      result(3) <= (int1 / 100) mod 10;
-       result(2) <= (int1 / 10) mod 10;
-       result(1) <= (int1 ) mod 10;
-       result(0) <= 10;--nothing;
-           data_input_internal(7 downto 0)<=data_input(7 downto 0);
-
+           pos<='1';
+    elsif  (comparator1='1') then
+               --int1
+           --            result(3) <=((int1) mod 10);
+           --           result(2) <= 5;
+           --           result(1) <= 6;
+           --           result(0) <= 7;--nothing;
+               
+                 result(2) <= (int1 / 100) mod 10;
+                  result(1) <= (int1 / 10) mod 10;
+                  result(0) <= (int1 ) mod 10;
+                  result(3) <= 10;--nothing;
+                      data_input_internal(7 downto 0)<=data_input(7 downto 0);
+           pos<='0';
+        elsif (pos='1')then
+               result(3) <= (int2 / 100) mod 10;
+            result(2) <= (int2 / 10) mod 10;
+            result(1) <= (int2 ) mod 10;
+            result(0) <= 10;--nothing;
+                data_input_internal(15 downto 8)<=data_input(15 downto 8);
+--        end if;
+-- end if;
+ 
+    else 
+--    (pos='0')then
+        result(2) <= (int1 / 100) mod 10;
+           result(1) <= (int1 / 10) mod 10;
+           result(0) <= (int1 ) mod 10;
+           result(3) <= 10;--nothing;
+               data_input_internal(7 downto 0)<=data_input(7 downto 0);
+--    end if;
   end if;
 
 	end PROCESS;
