@@ -114,24 +114,22 @@ comparator2 <= '0' when((data_input(15 downto 8) xnor data_input_internal(15 dow
 
   process(clock)
 	BEGIN
-  if (comparator1='1') then
+	 if (comparator2='1') then
+       --int1
+       result(3) <= (int2 / 100) mod 10;
+       result(2) <= (int2 / 10) mod 10;
+       result(1) <= (int2 ) mod 10;
+       result(0) <= 10;--nothing;
+           data_input_internal(15 downto 8)<=data_input(15 downto 8);
+
+ end if;
+ if (comparator1='1') then
     --int1
-    result(3) <= 10;
-    result(2) <= (int1 / 100) mod 10;
-    result(1) <= (int1 / 10) mod 10;
-    result(0) <= (int1 ) mod 10;
-
-    data_input_internal<=data_input;
-
-  elsif (comparator2='1') then
-    --int1
-    result(3) <= (int2 / 100) mod 10;
-    result(2) <= (int2 / 10) mod 10;
-    result(1) <= (int2 ) mod 10;
-    result(0) <= 10;--nothing;
-
-    data_input_internal<=data_input;
-  -- else
+      result(3) <= (int1 / 100) mod 10;
+       result(2) <= (int1 / 10) mod 10;
+       result(1) <= (int1 ) mod 10;
+       result(0) <= 10;--nothing;
+           data_input_internal(7 downto 0)<=data_input(7 downto 0);
 
   end if;
 
